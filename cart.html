@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cart</title>
+    <style>
+        /* Your CSS styles for the cart page */
+        body {
+            font-family: Arial, sans-serif;
+        }
+        .header {
+            background-color: black;
+            color: #fff;
+            padding: 10px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .cart-items {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 20px;
+        }
+        ul {
+            list-style: none;
+            padding: 0;
+        }
+        li {
+            margin: 10px 0;
+            
+        }
+        .order{
+            color: whitesmoke;
+            border-radius: 2rem;
+             
+        }
+        .back-button {
+            background-color: #007bff;
+            color: #fff;
+            border: none;
+            padding: 10px 20px;
+            cursor: pointer;
+        }
+        .back-button:hover {
+            background-color: #0056b3;
+        }
+        
+    </style>
+</head>
+<body>
+    <div class="header">
+        <h1>Cart</h1>
+        <nav>
+            <ul>
+                <button class="back-button" onclick="location.href='order-item.html'">Back to order</button>
+        
+            </ul>
+        </nav>
+    </div>
+
+    <div class="cart-items">
+        <h2>Your Cart:</h2>
+        <ul id="cart-list">
+            <!-- Cart items will be dynamically added here using JavaScript -->
+        </ul>
+        <button id="checkout">Checkout</button>
+    </div>
+
+    <script>
+        const cartList = document.getElementById("cart-list");
+        const checkoutButton = document.getElementById("checkout");
+        const cart = JSON.parse(localStorage.getItem("cart")) || [];
+
+        if (cart.length === 0) {
+            const emptyCartMessage = document.createElement("p");
+            emptyCartMessage.textContent = "Your cart is empty.";
+            cartList.appendChild(emptyCartMessage);
+            checkoutButton.style.display = "none";
+        } else {
+            cart.forEach(item => {
+                const listItem = document.createElement("li");
+                listItem.textContent = `${item.quantity} ${item.item}`;
+                cartList.appendChild(listItem);
+            });
+        }
+
+        checkoutButton.addEventListener("click", () => {
+            if (cart.length === 0) {
+                alert("Your cart is empty. Add items to your cart first.");
+            } else {
+                alert("Your order has been placed!");
+                // Clear the cart after placing the order
+                localStorage.removeItem("cart");
+                location.reload(); // Reload the page to update the cart
+            }
+        });
+    </script>
+</body>
+</html>
